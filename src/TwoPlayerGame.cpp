@@ -1,28 +1,24 @@
 #include "TwoPlayerGame.hpp"
+#include "Game.hpp"
 #include "HandlingSettings.hpp"
+#include <raymath.h>
 
-static DrawingDetails makeDrawingDetails1() {
-  float blockLength{
-    DrawingDetails::HEIGHT_SCALE_FACTOR * 0.75f * GetScreenHeight() /
-    Playfield::VISIBLE_HEIGHT
-  };
-  Vector2 position{
-    GetScreenWidth() / 4.0f - blockLength * Playfield::WIDTH / 2.0f,
-    GetScreenHeight() / 2.0f - blockLength * Playfield::VISIBLE_HEIGHT / 2.0f
-  };
-  return {blockLength, position};
+static DrawingDetails drawing_details_1() {
+  float block_length = DrawingDetails::HEIGHT_SCALE_FACTOR * 0.75f *
+    GetScreenHeight() / Playfield::VISIBLE_HEIGHT;
+  Vector2 position =
+    (screen_vector() * Vector2(0.5f, 1.0f) - PLAYFIELD_VECTOR * block_length) /
+    2.0f;
+  return {block_length, position};
 };
 
-static DrawingDetails makeDrawingDetails2() {
-  float blockLength{
-    DrawingDetails::HEIGHT_SCALE_FACTOR * 0.75f * GetScreenHeight() /
-    Playfield::VISIBLE_HEIGHT
-  };
-  Vector2 position{
-    (GetScreenWidth() * 3.0f / 2.0f - blockLength * Playfield::WIDTH) / 2.0f,
-    (GetScreenHeight() - blockLength * Playfield::VISIBLE_HEIGHT) / 2.0f
-  };
-  return {blockLength, position};
+static DrawingDetails drawing_details_2() {
+  float block_length = DrawingDetails::HEIGHT_SCALE_FACTOR * 0.75f *
+    GetScreenHeight() / Playfield::VISIBLE_HEIGHT;
+  Vector2 position =
+    (screen_vector() * Vector2(1.5f, 1.0f) - PLAYFIELD_VECTOR * block_length) /
+    2.0f;
+  return {block_length, position};
 };
 
 static constexpr Controller CONTROLS_1{
@@ -62,8 +58,8 @@ static constexpr Controller CONTROLS_2{
 TwoPlayerGame::TwoPlayerGame(
   const HandlingSettings& settings1, const HandlingSettings& settings2
 ) :
-  game1(makeDrawingDetails1(), CONTROLS_1, settings1),
-  game2(makeDrawingDetails2(), CONTROLS_2, settings2) {}
+  game1(drawing_details_1(), CONTROLS_1, settings1),
+  game2(drawing_details_2(), CONTROLS_2, settings2) {}
 
 void TwoPlayerGame::update() {
   game1.update();

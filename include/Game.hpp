@@ -15,4 +15,10 @@ struct Game {
   bool update();
 };
 
+static inline Vector2 screen_vector() {
+  return Vector2(GetScreenWidth(), GetScreenHeight());
+};
+
+constexpr Vector2 PLAYFIELD_VECTOR(Playfield::WIDTH, Playfield::VISIBLE_HEIGHT);
+
 #endif

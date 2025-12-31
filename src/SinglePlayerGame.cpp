@@ -3,15 +3,14 @@
 #include "HandlingSettings.hpp"
 #include "Playfield.hpp"
 #include <fstream>
+#include <raylib.h>
+#include <raymath.h>
 
-static DrawingDetails makeDrawingDetails() {
-  float blockLength = DrawingDetails::HEIGHT_SCALE_FACTOR * GetScreenHeight() /
+static DrawingDetails drawing_details() {
+  float block_length = DrawingDetails::HEIGHT_SCALE_FACTOR * GetScreenHeight() /
     Playfield::VISIBLE_HEIGHT;
-  Vector2 position{
-    (GetScreenWidth() - blockLength * Playfield::WIDTH) / 2.0f,
-    (GetScreenHeight() - blockLength * Playfield::VISIBLE_HEIGHT) / 2.0f
-  };
-  return {blockLength, position};
+  Vector2 position = (screen_vector() - PLAYFIELD_VECTOR * block_length) / 2.0;
+  return {block_length, position};
 };
 
 static constexpr Controller KEYBOARD_CONTROLS{
@@ -32,7 +31,7 @@ static constexpr Controller KEYBOARD_CONTROLS{
 };
 
 SinglePlayerGame::SinglePlayerGame(const HandlingSettings& settings) :
-  game(makeDrawingDetails(), KEYBOARD_CONTROLS, settings) {
+  game(drawing_details(), KEYBOARD_CONTROLS, settings) {
   if (std::ifstream in("save.raytris"); in.good())
     in.read(reinterpret_cast<char*>(&game.playfield), sizeof(Playfield));
   undoMoveStack.push(game.playfield);
