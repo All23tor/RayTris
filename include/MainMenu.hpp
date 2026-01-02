@@ -11,7 +11,7 @@ public:
   };
 
 private:
-  Option selectedOption = Option::SinglePlayer;
+  Option selected_option = Option::SinglePlayer;
 
 public:
   void draw() const;
