@@ -73,15 +73,15 @@ bool SettingsMenu::should_stop_running() const {
 
 void SettingsMenu::draw() const {
   const auto [width, height] = resolution_pair(global_config.resolution);
-  const float fontSizeBig = height / 4.0;
-  const float fontSize = height / 12.0;
+  const float font_size = height / 12.0;
+  const float font_size_big = height / 4.0;
 
   ClearBackground(LIGHTGRAY);
   DrawText(
     "SETTINGS",
-    (width - MeasureText("SETTINGS", fontSizeBig)) / 2.0,
-    height / 2.0 - fontSize - fontSizeBig,
-    fontSizeBig,
+    (width - MeasureText("SETTINGS", font_size_big)) / 2.0,
+    height / 2.0 - font_size - font_size_big,
+    font_size_big,
     RED
   );
 
@@ -90,26 +90,26 @@ void SettingsMenu::draw() const {
   option das = {
     "Delayed Auto Shift", std::format("{}", global_config.handling_settings.das)
   };
-  option softDropFrames = {
+  option soft_drop_frames = {
     "Soft Drop Frames",
     std::format("{}", global_config.handling_settings.soft_drop)
   };
 
-  std::array options = {resolution, das, softDropFrames};
+  std::array options = {resolution, das, soft_drop_frames};
   for (std::size_t idx = 0; idx < options.size(); idx++) {
     const auto [option, value] = options[idx];
     DrawText(
       option.c_str(),
       width / 8.0f,
-      height / 2.0f + idx * fontSize,
-      fontSize,
+      height / 2.0f + idx * font_size,
+      font_size,
       selected_option == idx ? BLUE : BLACK
     );
     DrawText(
       value.c_str(),
       width / 1.5f,
-      height / 2.0f + idx * fontSize,
-      fontSize,
+      height / 2.0f + idx * font_size,
+      font_size,
       selected_option == idx ? BLUE : BLACK
     );
   }
